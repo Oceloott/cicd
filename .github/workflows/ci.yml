@@ -15,5 +15,5 @@ jobs:
               run: |
                 echo "Say"
                 echo "Hello"
-            -name: "list files"
+            - name: "list files"
               run: ls
