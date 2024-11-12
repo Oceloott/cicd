@@ -2,35 +2,14 @@ name: "CI"
 
 on: 
     push:
-        paths: ~
+        paths-ignore: "./ci-basics.yml"
     workflow_dispatch: ~
 
 jobs:
-    hello:
-        runs-on: "ubuntu-latest"
-        name: "Hello"
-        steps:
-            - name: "Hello world"
-              run: echo "Hello, world!"
-            - name: "multiple  world"
-              run: |
-                echo "Say"
-                exit 1
-                echo "Hello"
-              continue-on-error: true
-            - name: "list files"
-              run: ls
-
-    hello2:
+    deps:
+        name: "Install dependencies"
         runs-on: "ubuntu-latest"
         steps:
-            - name: "Coucou"
-              run: echo "Coucou!"
-
-    hello3:
-        runs-on: "ubuntu-latest"
-        steps:
-            - name: "require"
-              run: |
-                echo "1 et 2 fini"
-        needs: ["hello", "hello2"]
+            - name: "Checkout"
+              uses: actions/checkout@v2
+            - run : ls
