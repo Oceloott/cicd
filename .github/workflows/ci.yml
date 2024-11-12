@@ -17,5 +17,6 @@ jobs:
                 echo "Say"
                 exit 1
                 echo "Hello"
+              continue-on-error: true
             - name: "list files"
               run: ls
