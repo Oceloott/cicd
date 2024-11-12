@@ -3,7 +3,7 @@ name: "CI"
 on: 
     push:
         paths: ~
-     workflows_dispatch: ~
+    workflow_dispatch: ~
 
 jobs:
     hello:
