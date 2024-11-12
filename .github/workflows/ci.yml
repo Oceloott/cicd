@@ -20,3 +20,17 @@ jobs:
               continue-on-error: true
             - name: "list files"
               run: ls
+
+    hello2:
+        runs-on: "ubuntu-latest"
+        steps:
+            - name: "Coucou"
+              run: echo "Coucou!"
+
+    hello3:
+        runs-on: "ubuntu-latest"
+        steps:
+            - name: "require"
+              run: |
+                echo "1 et 2 fini"
+        needs: ["hello", "hello2"]
