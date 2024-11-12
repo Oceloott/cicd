@@ -15,6 +15,7 @@ jobs:
             - name: "multiple  world"
               run: |
                 echo "Say"
+                exit 1
                 echo "Hello"
             - name: "list files"
               run: ls
