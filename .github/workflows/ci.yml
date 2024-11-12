@@ -13,3 +13,22 @@ jobs:
             - name: "Checkout"
               uses: actions/checkout@v2
             - run : ls
+    install:
+        name: "Install"
+        runs-on: "ubuntu-latest"
+        steps:
+          - name: "setup php"
+            uses: shivammathur/setup-php@v2
+            with:
+              php-version: '8.1'
+              tools: composer
+          - name: "Install dependencies with Composer"
+            run: |
+              export APP_ENV=test
+              composer install --prefer-dist --no-interaction --no-progress
+          - name: "migration"
+            run: php bin/console doctrine:migrations:migrate
+
+        
+          
+        needs: ["deps"]
