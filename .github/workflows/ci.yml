@@ -1,32 +1,24 @@
 name: "CI"
 
-on: 
-    push:
-        paths-ignore: "./ci-basics.yml"
-    workflow_dispatch: ~
+on:
+  push:
+    paths-ignore: "./ci-basics.yml"
+  workflow_dispatch: ~
 
 jobs:
-    deps:
-        name: "Install dependencies"
-        runs-on: "ubuntu-latest"
-        steps:
-            - name: "Checkout"
-              uses: actions/checkout@v2
-            - run : ls
-    install:
-        name: "Install"
-        runs-on: "ubuntu-latest"
-        steps:
-          - name: "setup php"
-            uses: shivammathur/setup-php@v2
-            with:
-              php-version: '8.1'
-              tools: composer
-          - name: "Install dependencies with Composer"
-            run: |
-              export APP_ENV=test
-              composer install --prefer-dist --no-interaction --no-progress
-
-        
-          
-        needs: ["deps"]
+  deps:
+    name: "Install depedencies"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+      - run: ls
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@2.31.1
+        with:
+          php-version: 8.1
+          tools: composer
+      - name: "Install composer deps"
+        run: |
+          export APP_ENV=test
+          composer install --prefer-dist --no-interaction --no-progress
