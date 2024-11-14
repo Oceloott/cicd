@@ -13,12 +13,22 @@ jobs:
       - uses: actions/checkout@v3
       - name: Composer install
         uses: php-actions/composer@v6
+        with:
+          php_version: 8.1
+      - name: "Generate cs config"
+        run: cp phpcs.xml.dist phpcs.xml
       - name: PHP Code Sniffer
         uses: php-actions/phpcs@v1
         with:
           php_version: 8.1
           path: src/
           standard: phpcs.xml
+      - name: "PHPStan"
+        uses: php-actions/phpstan@v3
+        with:
+          path: src/
+          php_version: 8.1
+          level: 9
 
   deps:
     needs: ["linter"]
