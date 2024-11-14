@@ -19,15 +19,15 @@ jobs:
       #     args: analyse tests/ --level=9
 
   
-    - name: Composer install
-      uses: php-actions/composer@v6
+      - name: Composer install
+        uses: php-actions/composer@v6
 
-    - name: PHP Code Sniffer
-      uses: php-actions/phpcs@v1
-      with:
-        php_version: 8.1
-        path: src/
-        standard: phpcs.xml
+      - name: PHP Code Sniffer
+        uses: php-actions/phpcs@v1
+        with:
+          php_version: 8.1
+          path: src/
+          standard: phpcs.xml
 
   deps:
     name: "Install depedencies"
