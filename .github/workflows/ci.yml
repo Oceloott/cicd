@@ -6,6 +6,30 @@ on:
   workflow_dispatch: ~
 
 jobs:
+  test:
+    name: "Run tests"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "PHPStan"
+        uses: docker://oskarstark/phpstan-ga
+        with:
+          args: analyse tests/ --level=9
+
+      - name: Install "PHP_CodeSniffer"
+        run: |
+          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+          php phpcs.phar --version
+
+      - uses: Novusvetus/action-php_codesniffer@1.2.17
+        with:
+          files: "**.php"
+          scan_all: true
+          phpcs_path: php phpcs.phar
+          standard: phpcs.xml 
+
   deps:
     name: "Install depedencies"
     runs-on: "ubuntu-latest"
@@ -46,3 +70,4 @@ jobs:
           php -S 127.0.0.1:8080 -t public &
           sleep 2
           nc -zv localhost 8080
+    
