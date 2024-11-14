@@ -1,5 +1,5 @@
 name: "CI"
-
+# TODO ajouter fixture
 on:
   push:
     paths-ignore: "./ci-basics.yml"
@@ -15,6 +15,8 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: app
+        ports:
+          - 3306:3306
     steps:
       - name: "Checkout Repository"
         uses: actions/checkout@v4
@@ -24,9 +26,15 @@ jobs:
         with:
           php-version: 8.1
           tools: composer
-      - name: "chack database connection"
+      - name: "Check database healthy"
         run: nc -zv localhost 3306
       - name: "Install composer deps"
         run: |
           export APP_ENV=test
           composer install --prefer-dist --no-interaction --no-progress
+      - name: "migrations"
+        run: bin/console doctrine:migrations:migrate
+        env:
+          DATABASE_HOST: localhost
+          DATABASE_NAME: app
+          DATABASE_PASSWORD: password
