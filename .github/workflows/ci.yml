@@ -6,22 +6,13 @@ on:
   workflow_dispatch: ~
 
 jobs:
-  test:
-    name: "Run tests"
+  linter:
+    name: "Lint code"
     runs-on: "ubuntu-latest"
     steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v4
-
-      # - name: "PHPStan"
-      #   uses: docker://oskarstark/phpstan-ga
-      #   with:
-      #     args: analyse tests/ --level=9
-
-  
+      - uses: actions/checkout@v3
       - name: Composer install
         uses: php-actions/composer@v6
-
       - name: PHP Code Sniffer
         uses: php-actions/phpcs@v1
         with:
@@ -30,6 +21,7 @@ jobs:
           standard: phpcs.xml
 
   deps:
+    needs: ["linter"]
     name: "Install depedencies"
     runs-on: "ubuntu-latest"
     services:
@@ -63,10 +55,8 @@ jobs:
           DATABASE_NAME: app
           DATABASE_PASSWORD: password
       - name: "Start server"
-      # php bin/console server:start
         run: |
           php bin/console
           php -S 127.0.0.1:8080 -t public &
           sleep 2
           nc -zv localhost 8080
-    
